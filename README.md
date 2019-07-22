@@ -11,3 +11,7 @@ Run with `cargo`:
 ```bash
 cargo run
 ```
+
+### Screenshot
+
+<img src="https://raw.githubusercontent.com/rideron89/rusty-keys/master/screenshot.png">
