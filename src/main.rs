@@ -1,5 +1,10 @@
 extern crate rand;
 
+mod arrg;
+
+use arrg::Arrg;
+use std::process;
+
 /// Print a list of passwords of given length.
 fn print_list(length: u32, count: u32, allow_symbols: bool) {
     let mut alphabet = String::from("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789");
@@ -21,20 +26,35 @@ fn print_list(length: u32, count: u32, allow_symbols: bool) {
             }
         }
 
-        println!("    {}", code);
+        println!(" {}", code);
     }
 }
 
 fn main() {
-    println!("Generating keys...");
+    let arguments = Arrg::new()
+        .command("-c", "count")
+        .command("-l", "length")
+        .parse();
 
-    for length in vec![8, 10, 12, 16, 32] {
-        println!("");
-        println!("{} characters:", length);
-        print_list(length, 5, true);
-    }
+    let count: u32 = match arguments.get("count") {
+        Some(count) => {
+            count.parse().unwrap_or_else(|_| {
+                eprintln!("Invalid value for 'count'");
+                process::exit(1);
+            })
+        },
+        None => 10
+    };
 
-    println!("");
-    println!("32 characters (no symbols)");
-    print_list(32, 5, false);
+    let length: u32 = match arguments.get("length") {
+        Some(length) => {
+            length.parse().unwrap_or_else(|_| {
+                eprintln!("Invalid value for 'length'");
+                process::exit(1);
+            })
+        },
+        None => 16
+    };
+
+    print_list(length, count, true);
 }
