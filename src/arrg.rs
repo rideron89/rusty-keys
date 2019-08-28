@@ -37,12 +37,20 @@ impl Arrg {
                 Some(key) => {
                     match self.command_list.get(key.as_str()) {
                         Some(label) => {
-                            self.argument_list.insert(label.clone(), argument.clone());
+                            if Arrg::argument_is_command(&argument) {
+                                self.argument_list.insert(label.clone(), String::from("true"));
+                            } else {
+                                self.argument_list.insert(label.clone(), argument.clone());
+                            }
                         },
                         None => {}
-                    };
+                    }
 
-                    holding = None;
+                    if Arrg::argument_is_command(&argument) {
+                        holding = Some(argument.clone())
+                    } else {
+                        holding = None
+                    }
                 },
                 None => {
                     holding = Some(argument.clone());
@@ -50,6 +58,29 @@ impl Arrg {
             };
         }
 
+        // take care of arguments with no value at the end of the argument list
+        if let Some(key) = holding {
+            match self.command_list.get(key.as_str()) {
+                Some(label) => {
+                    self.argument_list.insert(label.clone(), String::from("true"));
+                },
+                None => {}
+            }
+        }
+
         self.argument_list.clone()
+    }
+
+    /// Check whether an argument is a command or not.
+    fn argument_is_command(argument: &String) -> bool {
+        if let Some(character) = argument.chars().nth(0) {
+            if character == '-' {
+                true
+            } else {
+                false
+            }
+        } else {
+            false
+        }
     }
 }
