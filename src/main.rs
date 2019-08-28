@@ -32,6 +32,7 @@ fn print_list(length: u32, count: u32, allow_symbols: bool) {
 
 fn main() {
     let arguments = Arrg::new()
+        .command("-a", "alphanumeric_only")
         .command("-c", "count")
         .command("-l", "length")
         .parse();
@@ -56,5 +57,10 @@ fn main() {
         None => 16
     };
 
-    print_list(length, count, true);
+    let alphanumeric_only: bool = match arguments.get("alphanumeric_only") {
+        Some(_) => true,
+        None => false
+    };
+
+    print_list(length, count, !alphanumeric_only);
 }
