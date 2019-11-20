@@ -38,3 +38,9 @@ The following command arguments are accepted:
 ```
 
 ## Templates
+
+### uuid
+
+Generates a UUID.
+
+Format: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`

@@ -39,6 +39,7 @@ fn main() {
     };
 
     let valid_templates = vec![
+        "uuid",
     ];
 
     let template: Option<String> = arguments.get("template")
@@ -58,7 +59,7 @@ fn main() {
     match template {
         Some(template) => print_list_for_template(&template, count),
         None => print_list(length, count, !alphanumeric_only),
-}
+    }
 }
 
 /// Print a list of passwords of given length.
@@ -90,6 +91,7 @@ fn print_list(length: u32, count: u32, allow_symbols: bool) {
 fn print_list_for_template(template: &str, count: u32) {
     for _ in 0..count {
         match template {
+            "uuid" => println!(" {}", generate_uuid()),
             &_ => {
                 // the process should never get to this point, because we are checking
                 // against valid templates in a previous step
@@ -97,4 +99,33 @@ fn print_list_for_template(template: &str, count: u32) {
             }
         }
     }
+}
+
+/// Generate a UUID key.
+///
+/// Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+///
+/// Example: c17247f6-55b6-9226-28fc-952b7becc6e9
+fn generate_uuid() -> String {
+    let alphabet = String::from("abcdef0123456789");
+
+    let mut code = String::new();
+
+    for _ in 0..32 {
+        // 16 is the length of the above Hex alphabet
+        let number = rand::random::<f32>() * (16 as f32);
+        let number = number.round() as usize;
+
+        match alphabet.chars().nth(number) {
+            Some(character) => code.push(character),
+            None => {},
+        }
+    }
+
+    code.insert(20, '-');
+    code.insert(16, '-');
+    code.insert(12, '-');
+    code.insert(8, '-');
+
+    code
 }
