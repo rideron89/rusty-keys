@@ -80,7 +80,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "random-keygen"
+name = "rusty-keys"
 version = "0.1.0"
 dependencies = [
  "rand 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",

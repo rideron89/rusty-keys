@@ -1,5 +1,5 @@
 [package]
-name = "random-keygen"
+name = "rusty-keys"
 version = "0.1.0"
 authors = ["rideron89"]
 edition = "2018"
