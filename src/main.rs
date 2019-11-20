@@ -10,6 +10,7 @@ fn main() {
         .command("-a", "alphanumeric_only")
         .command("-c", "count")
         .command("-l", "length")
+        .command("-t", "template")
         .parse();
 
     let count: u32 = match arguments.get("count") {
@@ -37,7 +38,27 @@ fn main() {
         None => false
     };
 
-    print_list(length, count, !alphanumeric_only);
+    let valid_templates = vec![
+    ];
+
+    let template: Option<String> = arguments.get("template")
+        .map(|template| match valid_templates.contains(&template.as_str()) {
+            true => template.clone(),
+            false => {
+                eprintln!("'{}' is an invalid template. Available templates:", template);
+
+                for template in valid_templates {
+                    eprintln!("    {}", template);
+                }
+
+                process::exit(1);
+            },
+        });
+
+    match template {
+        Some(template) => print_list_for_template(&template, count),
+        None => print_list(length, count, !alphanumeric_only),
+}
 }
 
 /// Print a list of passwords of given length.
@@ -62,5 +83,18 @@ fn print_list(length: u32, count: u32, allow_symbols: bool) {
         }
 
         println!(" {}", code);
+    }
+}
+
+/// Print a list of passwords for a given template.
+fn print_list_for_template(template: &str, count: u32) {
+    for _ in 0..count {
+        match template {
+            &_ => {
+                // the process should never get to this point, because we are checking
+                // against valid templates in a previous step
+                eprintln!("'{}' is an invalid template", template);
+            }
+        }
     }
 }

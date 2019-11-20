@@ -34,4 +34,7 @@ The following command arguments are accepted:
 -a    Only use alphanumeric characters (default: false)
 -c    Number of keys to generate       (default: 10)
 -l    Character length of each key     (default: 16)
+-t    Template                         (default: none)
 ```
+
+## Templates
