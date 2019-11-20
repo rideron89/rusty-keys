@@ -14,6 +14,14 @@ cargo run
 cargo run -- -a -c 5 -l 12
 ```
 
+Or compile and run as a stand-alone application:
+
+```bash
+cargo build --release
+
+target/release/rusty-keys -l 32
+```
+
 ### Screenshot
 
 <img src="https://raw.githubusercontent.com/rideron89/rusty-keys/master/screenshot.png">
